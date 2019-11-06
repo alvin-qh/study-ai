@@ -1,0 +1,5 @@
+jupyterlab
+nb_black
+numpy
+tensorflow
+matplotlib

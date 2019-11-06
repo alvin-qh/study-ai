@@ -1,19 +1,17 @@
-import os
 import random
-from os import path as p
-from typing import Tuple
+from os import curdir, path, makedirs
 
 import numpy as np
 from tensorflow import keras
 
 
 class Dataset:
-    def __init__(self, dataset: Tuple[np.ndarray, np.ndarray], one_hot=True):
+    def __init__(self, dataset, one_hot=True):
         self._data, self._labels = self._transcode(dataset, one_hot)
         self._cur = 0
 
     @staticmethod
-    def _transcode(dataset: Tuple[np.ndarray, np.ndarray], one_hot: bool) -> Tuple[np.ndarray, np.ndarray]:
+    def _transcode(dataset, one_hot: bool):
         data, labels = dataset
 
         data = data.reshape(data.shape[0], data.shape[1] * data.shape[2])
@@ -31,7 +29,7 @@ class Dataset:
 
         return data, labels
 
-    def batch(self, batch_size=100) -> Tuple[np.array, np.array]:
+    def batch(self, batch_size=100):
         total_data, total_labels = np.zeros((0, self._data.shape[1])), np.zeros((0, 10))
 
         while batch_size > 0:
@@ -41,6 +39,7 @@ class Dataset:
             total_labels = np.append(total_labels, labels, axis=0)
             cur_to = self._cur + len(data)
             batch_size -= len(total_data)
+
             if cur_to == len(self._data):
                 self._shuffle()
                 self._cur = 0
@@ -60,22 +59,22 @@ class Dataset:
         return len(self._data)
 
     @property
-    def size(self) -> int:
+    def size(self):
         return len(self._data)
 
     @property
-    def position(self) -> int:
+    def position(self):
         return self._cur
 
-    def __getitem__(self, index: int) -> Tuple[np.ndarray, np.ndarray]:
+    def __getitem__(self, index):
         return self._data[index], self._labels[index]
 
-    def all(self) -> Tuple[np.ndarray, np.ndarray]:
+    def all(self):
         return self._data, self._labels
 
 
 class Mnist:
-    __cache_dir__ = '.mnist-data'
+    _cache_dir = ('.mnist-data', 'mnist.npz')
 
     def __init__(self):
         data_path = self._create_data_path()
@@ -83,12 +82,12 @@ class Mnist:
 
     @classmethod
     def _create_data_path(cls):
-        dir_ = p.join(p.dirname(__file__), cls.__cache_dir__)
-        os.makedirs(dir_, exist_ok=True)
-        return p.join(dir_, 'mnist.npz')
+        dir_ = path.abspath(path.join(curdir, cls._cache_dir[0]))
+        makedirs(dir_, exist_ok=True)
+        return path.join(dir_, cls._cache_dir[1])
 
-    def train_data(self) -> Dataset:
+    def train_data(self):
         return Dataset(self._train_data)
 
-    def test_data(self) -> Dataset:
+    def test_data(self):
         return Dataset(self._test_data)
