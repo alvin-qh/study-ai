@@ -1,5 +1,6 @@
 jupyterlab
-nb_black
+jupyterlab_code_formatter
+autopep8
 numpy
 tensorflow
 matplotlib
