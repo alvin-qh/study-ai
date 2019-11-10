@@ -1,6 +1,6 @@
 jupyterlab
 jupyterlab_code_formatter
 autopep8
-numpy
 tensorflow
+sklearn
 matplotlib
