@@ -4,3 +4,6 @@ autopep8
 tensorflow
 sklearn
 matplotlib
+requests
+dlib
+pillow
