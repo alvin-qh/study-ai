@@ -1,3 +1,4 @@
 dist
 dlib.egg-info
 models
+models/.cache
