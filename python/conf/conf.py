@@ -1,1 +1,0 @@
-SHOW_IMAGE = False
