@@ -9,3 +9,4 @@ requests
 dlib
 pillow
 pandas
+xarray
