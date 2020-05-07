@@ -1,9 +1,8 @@
-* text eol=lf
+* text eol=lf encoding=utf-8
 
 *.bat text eol=crlf
 *.cmd text eol=crlf
 
-*.jar   binary
 *.xpi   binary
 *.jpg   binary
 *.png   binary
